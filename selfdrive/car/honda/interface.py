@@ -252,9 +252,25 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.66
       ret.centerToFront = ret.wheelbase * 0.41
       ret.steerRatio = 16.0  # 12.3 is spec end-to-end
-      ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0, 3840], [0, 3840]] # TODO: determine if there is a dead zone at the top end
+      # TODO: can we imporve steering control by adding all breakpoints from firmware and adjust interp output to have constant slope?
+      if eps_modified:
+        # stock request output values:    0x0000, 0x0917, 0x0DC5, 0x1017, 0x119F, 0x140B, 0x1680, 0x1680, 0x1680
+        # modified request output values: 0x0000, 0x0917, 0x0DC5, 0x1017, 0x119F, 0x140B, 0x1680, 0x2880, 0x3180
+        # stock filter output values:     0x009F, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108
+        # modified filter output values:  0x009F, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0400, 0x0480
+        # note: max request allowed is 4096, but request is capped at 3840 in firmware, so modifications result in 2x max
+        #ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0, 2560, 5120],  [0, 2560, 3840]]
+        ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0, 0x917, 0xDC5, 0x1017, 0x119F, 0x140B, 0x1680, 0x2880, 0x2D00],  [0, 0x201, 0x301, 0x478, 0x5EB, 0x801, 0x9FF, 0xE01, 0xF00]]
+        ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.3], [0.12]]
+
+        #ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0, 0x917, 0xDC5, 0x1017, 0x119F, 0x140B, 0x1680],  [0, 0x201, 0x301, 0x478, 0x5EB, 0x801, 0x9FF]]
+        #ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.8], [0.24]] # TODO: test these numbers
+        #ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0, 0xa00],  [0, 0xa00]]
+        #ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.8], [0.24]] # TODO: test these numbers
+      else:
+        ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0, 2560], [0, 2560]] # max request allowed is 4096, but above 2560 is flat
+        ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.6], [0.18]]
       tire_stiffness_factor = 0.677
-      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.64], [0.192]] # TODO: test these numbers
       ret.longitudinalTuning.kpBP = [0., 5., 35.]
       ret.longitudinalTuning.kpV = [1.2, 0.8, 0.5]
       ret.longitudinalTuning.kiBP = [0., 35.]

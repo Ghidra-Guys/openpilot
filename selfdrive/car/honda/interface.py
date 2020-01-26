@@ -251,7 +251,7 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 3410. * CV.LB_TO_KG + STD_CARGO_KG
       ret.wheelbase = 2.66
       ret.centerToFront = ret.wheelbase * 0.41
-      ret.steerRatio = 16.0  # 12.3 is spec end-to-end
+      ret.steerRatio = 15.5  # 12.3 is spec end-to-end
       # TODO: can we imporve steering control by adding all breakpoints from firmware and adjust interp output to have constant slope?
       if eps_modified:
         # stock request output values:    0x0000, 0x0500, 0x0A15, 0x0E6D, 0x1100, 0x1200, 0x129A, 0x134D, 0x1400

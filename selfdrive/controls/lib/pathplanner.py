@@ -14,7 +14,7 @@ LaneChangeDirection = log.PathPlan.LaneChangeDirection
 
 LOG_MPC = os.environ.get('LOG_MPC', False)
 
-LANE_CHANGE_SPEED_MIN = 45 * CV.MPH_TO_MS
+LANE_CHANGE_SPEED_MIN = 25 * CV.MPH_TO_MS
 LANE_CHANGE_TIME_MAX = 10.
 
 DESIRES = {
@@ -130,7 +130,7 @@ class PathPlanner():
         else:
           self.lane_change_state = LaneChangeState.off
 
-    if self.lane_change_state in [LaneChangeState.off, LaneChangeState.preLaneChange]:
+    if self.lane_change_state == LaneChangeState.off:
       self.lane_change_timer = 0.0
     else:
       self.lane_change_timer += DT_MDL

@@ -251,7 +251,7 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 3410. * CV.LB_TO_KG + STD_CARGO_KG
       ret.wheelbase = 2.66
       ret.centerToFront = ret.wheelbase * 0.41
-      ret.steerRatio = 15.5  # 12.3 is spec end-to-end
+      ret.steerRatio = 15.25  # 12.3 is spec end-to-end
       # TODO: can we imporve steering control by adding all breakpoints from firmware and adjust interp output to have constant slope?
       if eps_modified:
         # stock request output values:    0x0000, 0x0500, 0x0A15, 0x0E6D, 0x1100, 0x1200, 0x129A, 0x134D, 0x1400
@@ -260,10 +260,10 @@ class CarInterface(CarInterfaceBase):
         # modified filter output values:  0x009F, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0400, 0x0480
         # note: max request allowed is 4096, but request is capped at 3840 in firmware, so modifications result in 2x max
         ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0x0, 0x480, 0x912, 0xCFB, 0xF4C, 0x1033, 0x10BD, 0x1EDE, 0x2D00], [0x0, 0x1E0, 0x3C0, 0x5A0, 0x780, 0x960, 0xB40, 0xD20, 0xF00]]#confirmed F00 is steer_max for crv
-        ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.6], [0.1]]
+        ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.5], [0.1]]
 
       else:
-        ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0, 1000], [0, 1000]] # max request allowed is 4096, but above 2560 is flat
+        ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0, 0xF00], [0, 0xF00]] # max request allowed is 0xF00
         ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.6], [0.18]]
       tire_stiffness_factor = 0.677
       ret.longitudinalTuning.kpBP = [0., 5., 35.]

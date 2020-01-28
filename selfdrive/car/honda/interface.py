@@ -170,7 +170,7 @@ class CarInterface(CarInterfaceBase):
       if fw.ecu == "eps" and b"," in fw.fwVersion:
         eps_modified = True
 
-    if candidate in [CAR.CIVIC, CAR.CIVIC_BOSCH]:
+    if candidate == CAR.CIVIC:
       stop_and_go = True
       ret.mass = CivicParams.MASS
       ret.wheelbase = CivicParams.WHEELBASE
@@ -183,14 +183,8 @@ class CarInterface(CarInterfaceBase):
         # stock filter output values:     0x009F, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108
         # modified filter output values:  0x009F, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0400, 0x0480
         # note: max request allowed is 4096, but request is capped at 3840 in firmware, so modifications result in 2x max
-        #ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0, 2560, 5120],  [0, 2560, 3840]]
         ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0, 0x917, 0xDC5, 0x1017, 0x119F, 0x140B, 0x1680, 0x2880, 0x2D00],  [0, 0x201, 0x301, 0x478, 0x5EB, 0x801, 0x9FF, 0xE01, 0xF00]]
         ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.4], [0.12]]
-
-        #ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0, 0x917, 0xDC5, 0x1017, 0x119F, 0x140B, 0x1680],  [0, 0x201, 0x301, 0x478, 0x5EB, 0x801, 0x9FF]]
-        #ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.8], [0.24]] # TODO: test these numbers
-        #ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0, 0xa00],  [0, 0xa00]]
-        #ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.8], [0.24]] # TODO: test these numbers
       else:
         ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0, 2560], [0, 2560]] # max request allowed is 4096, but above 2560 is flat
         ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.8], [0.24]]
@@ -201,6 +195,30 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kiBP = [0., 35.]
       ret.longitudinalTuning.kiV = [0.54, 0.36]
 
+    elif candidate == CAR.CIVIC_BOSCH:
+      stop_and_go = True
+      ret.mass = CivicParams.MASS
+      ret.wheelbase = CivicParams.WHEELBASE
+      ret.centerToFront = CivicParams.CENTER_TO_FRONT
+      ret.steerRatio = 15.38  # 10.93 is end-to-end spec
+      if eps_modified:
+        # stock request output values:    0x0000, 0x0380, 0x0800, 0x0c00, 0x0eb6, 0x10ae, 0x1200, 0x1200, 0x1200
+        # modified request output values: 0x0000, 0x0746, 0x0B04, 0x0CDF, 0x0E19, 0x1008, 0x1200, 0x1C9A, 0x22F6
+        # stock filter output values:     0x009F, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108
+        # modified filter output values:  0x009F, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0400, 0x0480
+        # note: max request allowed is 4096, but request is capped at 3840 in firmware, so modifications result in 2x max
+        ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0x0, 0x60F, 0x92E, 0xAB9, 0xBBF, 0xD5C, 0xF00, 0x1E00, 0x2D00], [0x0, 0x1C0, 0x2A0, 0x3E8, 0x52D, 0x700, 0x8BE, 0xC3F, 0xE00]]
+        ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.5], [0.11]]
+      else:
+        ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0, 0xE00], [0, 0xE00]] # max request allowed is 4096, but above 2560 is flat
+        ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.8], [0.24]]
+      tire_stiffness_factor = 1.
+
+      ret.longitudinalTuning.kpBP = [0., 5., 35.]
+      ret.longitudinalTuning.kpV = [3.6, 2.4, 1.5]
+      ret.longitudinalTuning.kiBP = [0., 35.]
+      ret.longitudinalTuning.kiV = [0.54, 0.36]
+      
     elif candidate in (CAR.ACCORD, CAR.ACCORD_15, CAR.ACCORDH):
       stop_and_go = True
       if not candidate == CAR.ACCORDH: # Hybrid uses same brake msg as hatch
@@ -261,7 +279,6 @@ class CarInterface(CarInterfaceBase):
         # note: max request allowed is 4096, but request is capped at 3840 in firmware, so modifications result in 2x max
         ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0x0, 0x480, 0x912, 0xCFB, 0xF4C, 0x1033, 0x10BD, 0x1EDE, 0x2D00], [0x0, 0x200, 0x400, 0x600, 0x800, 0xA00, 0xC00, 0xE00, 0xF00]]#confirmed F00 is steer_max for crv
         ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.5], [0.1]]
-
       else:
         ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0x0, 0xB40, 0x16AF, 0x2075, 0x2640, 0x2880, 0x29DA, 0x2B6D, 0x2D00], [0x0, 0x200, 0x400, 0x600, 0x800, 0xA00, 0xC00, 0xE00, 0xF00]] # max request allowed is 0xF00
         ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.6], [0.18]]

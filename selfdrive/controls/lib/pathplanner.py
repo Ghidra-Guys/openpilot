@@ -92,7 +92,6 @@ class PathPlanner():
     # Dynamic steerRatio
     if v_ego > 5:
         self.steerRatio = CP.steerRatio - CP.steerRatioV * (abs(angle_steers)
-    print("steerRatio = ", self.steerRatio)
 
 #############
     # Lane change logic

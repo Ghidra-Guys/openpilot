@@ -137,6 +137,7 @@ class CarInterface(CarInterfaceBase):
     ret.carName = "honda"
     ret.carFingerprint = candidate
     ret.isPandaBlack = has_relay
+    ret.steeringAngle = self.CS.angle_steers
 
     if candidate in HONDA_BOSCH:
       ret.safetyModel = car.CarParams.SafetyModel.hondaBoschHarness if has_relay else car.CarParams.SafetyModel.hondaBoschGiraffe

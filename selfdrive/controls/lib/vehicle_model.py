@@ -106,7 +106,7 @@ class VehicleModel():
 
     self.cF_orig = CP.tireStiffnessFront
     self.cR_orig = CP.tireStiffnessRear
-    self.sR = CP.steerRatio - CP.steerRatioV * sa
+    self.sR = CP.steerRatio# - CP.steerRatioV * sa
     self.update_params(1.0, CP.steerRatio)
 
   def update_params(self, stiffness_factor, steer_ratio):

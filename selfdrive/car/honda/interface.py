@@ -73,7 +73,7 @@ def get_compute_gb_acura():
 
 
 class CarInterface(CarInterfaceBase):
-  def __init__(self, CP, CarController):
+  def __init__(self, CP, CarController, sa):
     self.CP = CP
 
     self.frame = 0

@@ -117,7 +117,7 @@ def fingerprint(logcan, sendcan, has_relay):
   return car_fingerprint, finger, vin, car_fw
 
 
-def get_car(logcan, sendcan, has_relay=False, sa):
+def get_car(sa, logcan, sendcan, has_relay=False):
   candidate, fingerprints, vin, car_fw = fingerprint(logcan, sendcan, has_relay)
 
   if candidate is None:

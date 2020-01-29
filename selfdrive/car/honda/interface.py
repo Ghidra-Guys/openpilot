@@ -278,7 +278,7 @@ class CarInterface(CarInterfaceBase):
         # modified filter output values:  0x009F, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0400, 0x0480
         # note: max request allowed is 4096, but request is capped at 3840 in firmware, so modifications result in 2x max
         ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0x0, 0x480, 0x912, 0xCFB, 0xF4C, 0x1033, 0x19CC, 0x2366, 0x2D00], [0x0, 0x200, 0x400, 0x600, 0x800, 0xA00, 0xC00, 0xE00, 0xF00]]#confirmed F00 is steer_max for crv
-        ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.5], [0.1]]
+        ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.4], [0.15]]
       else:
         ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0x0, 0xB40, 0x16AF, 0x2075, 0x2640, 0x2880, 0x29DA, 0x2B6D, 0x2D00], [0x0, 0x200, 0x400, 0x600, 0x800, 0xA00, 0xC00, 0xE00, 0xF00]] # max request allowed is 0xF00
         ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.6], [0.18]]

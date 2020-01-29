@@ -90,9 +90,9 @@ class PathPlanner():
     self.LP.parse_model(sm['model'])
 #############
     # Dynamic steerRatio
-    if v_ego > 5:
-        self.steerRatioNew = self.steerRatio - CP.steerRatioV * (abs(angle_steers))
-        self.steerRatio = self.steerRatioNew
+
+    self.steerRatioNew = self.sR - CP.steerRatioV * (abs(angle_steers))
+    self.steerRatio = self.steerRatioNew
 
     print("steerRatio = ", self.steerRatio)
 

@@ -91,7 +91,7 @@ def calc_slip_factor(VM):
 
 
 class VehicleModel():
-  def __init__(self, CP, sa):
+  def __init__(self, CP):
     """
     Args:
       CP: Car Parameters

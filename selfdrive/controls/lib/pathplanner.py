@@ -90,11 +90,8 @@ class PathPlanner():
     self.LP.parse_model(sm['model'])
 #############
     # Dynamic steerRatio
-
     self.steerRatioNew = CP.steerRatio - CP.steerRatioV * (abs(angle_steers))
     self.steerRatio = self.steerRatioNew
-
-    print("angle = ", angle_steers)
 
 #############
     # Lane change logic

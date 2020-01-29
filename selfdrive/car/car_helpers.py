@@ -125,7 +125,7 @@ def get_car(logcan, sendcan, has_relay=False):
     candidate = "mock"
 
   CarInterface, CarController = interfaces[candidate]
-  car_params = CarInterface.get_params(self, candidate, fingerprints, has_relay, car_fw)
+  car_params = CarInterface.get_params(candidate, fingerprints, has_relay, car_fw)
   car_params.carVin = vin
   car_params.carFw = car_fw
 

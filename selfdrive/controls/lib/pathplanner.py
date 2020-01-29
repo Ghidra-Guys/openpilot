@@ -88,7 +88,13 @@ class PathPlanner():
     curvature_factor = VM.curvature_factor(v_ego)
 
     self.LP.parse_model(sm['model'])
+#############
+    # Dynamic steerRatio
+    if v_ego > 5:
+        self.steerRatio = CP.steerRatio - CP.steerRatioV * (abs(angle_steers)
+    print("steerRatio = ", self.steerRatio)
 
+#############
     # Lane change logic
     one_blinker = sm['carState'].leftBlinker != sm['carState'].rightBlinker
     below_lane_change_speed = v_ego < LANE_CHANGE_SPEED_MIN

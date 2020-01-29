@@ -3,7 +3,6 @@ import os
 os.environ['OLD_CAN'] = '1'
 os.environ['NOCRASH'] = '1'
 
-import time
 import unittest
 import shutil
 import matplotlib
@@ -348,30 +347,38 @@ class LongitudinalControl(unittest.TestCase):
   def test_longitudinal_setup(self):
     pass
 
+
 def run_maneuver_worker(k):
   man = maneuvers[k]
   output_dir = os.path.join(os.getcwd(), 'out/longitudinal')
 
   def run(self):
     print(man.title)
-    manager.start_managed_process('radard')
-    manager.start_managed_process('controlsd')
-    manager.start_managed_process('plannerd')
 
-    plot, valid = man.evaluate()
-    plot.write_plot(output_dir, "maneuver" + str(k+1).zfill(2))
+    valid = False
 
-    manager.kill_managed_process('radard')
-    manager.kill_managed_process('controlsd')
-    manager.kill_managed_process('plannerd')
-    time.sleep(5)
+    for retries in range(3):
+      manager.start_managed_process('radard')
+      manager.start_managed_process('controlsd')
+      manager.start_managed_process('plannerd')
+
+      plot, valid = man.evaluate()
+      plot.write_plot(output_dir, "maneuver" + str(k + 1).zfill(2))
+
+      manager.kill_managed_process('radard')
+      manager.kill_managed_process('controlsd')
+      manager.kill_managed_process('plannerd')
+
+      if valid:
+        break
 
     self.assertTrue(valid)
 
   return run
 
+
 for k in range(len(maneuvers)):
-  setattr(LongitudinalControl, "test_longitudinal_maneuvers_%d" % (k+1), run_maneuver_worker(k))
+  setattr(LongitudinalControl, "test_longitudinal_maneuvers_%d" % (k + 1), run_maneuver_worker(k))
 
 if __name__ == "__main__":
   unittest.main(failfast=True)

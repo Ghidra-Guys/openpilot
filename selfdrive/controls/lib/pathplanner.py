@@ -94,7 +94,7 @@ class PathPlanner():
     self.steerRatioNew = CP.steerRatio - CP.steerRatioV * (abs(angle_steers))
     self.steerRatio = self.steerRatioNew
 
-    print("steerRatio = ", self.steerRatio)
+    print("angle = ", angle_steers)
 
 #############
     # Lane change logic

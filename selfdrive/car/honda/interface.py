@@ -270,7 +270,7 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.66
       ret.centerToFront = ret.wheelbase * 0.41
       ret.steerRatio = 15.25
-      ret.steerRatioV = 0.005 # steer ratio drops 0.006 per degree of steering from center
+      ret.steerRatioV = 0.007 # steer ratio drops 0.006 per degree of steering from center
       # TODO: can we imporve steering control by adding all breakpoints from firmware and adjust interp output to have constant slope?
       if eps_modified:
         # stock request output values:    0x0000, 0x0500, 0x0A15, 0x0E6D, 0x1100, 0x1200, 0x129A, 0x134D, 0x1400

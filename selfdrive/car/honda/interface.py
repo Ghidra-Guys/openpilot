@@ -144,7 +144,7 @@ class CarInterface(CarInterfaceBase):
       rdr_bus = 0 if has_relay else 2
       ret.enableCamera = is_ecu_disconnected(fingerprint[rdr_bus], FINGERPRINTS, ECU_FINGERPRINT, candidate, ECU.CAM) or has_relay
       ret.radarOffCan = True
-      ret.openpilotLongitudinalControl = is_ecu_disconnected(fingerprint[0], FINGERPRINTS, ECU_FINGERPRINT, candidate, ECU.RADAR)
+      ret.openpilotLongitudinalControl = True
       ret.enableCruise = not ret.openpilotLongitudinalControl
     else:
       ret.safetyModel = car.CarParams.SafetyModel.hondaNidec

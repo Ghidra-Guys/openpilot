@@ -21,6 +21,10 @@ VISUAL_HUD = {
   VisualAlert.seatbeltUnbuckled: 5,
   VisualAlert.speedTooHigh: 8}
 
+class ECU:
+  CAM = 0
+  RADAR = 1
+
 class CAR:
   ACCORD = "HONDA ACCORD 2018 SPORT 2T"
   ACCORD_15 = "HONDA ACCORD 2018 LX 1.5T"
@@ -211,7 +215,8 @@ SPEED_FACTOR = {
 # msgs sent for steering controller by camera module on can 0.
 # those messages are mutually exclusive on CRV and non-CRV cars
 ECU_FINGERPRINT = {
-  Ecu.fwdCamera: [0xE4, 0x194],   # steer torque cmd
+  ECU.CAM: [0xE4, 0x194],   # steer torque cmd
+  ECU.RADAR: [0xE4, 0x1DF, 0x1EF, 0x30C, 0x33D, 0x39F],
 }
 
 HONDA_BOSCH = [CAR.ACCORD, CAR.ACCORD_15, CAR.ACCORDH, CAR.CIVIC_BOSCH, CAR.CRV_5G, CAR.CRV_HYBRID]

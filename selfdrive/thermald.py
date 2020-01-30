@@ -22,8 +22,8 @@ FW_SIGNATURE = get_expected_signature()
 
 ThermalStatus = log.ThermalData.ThermalStatus
 CURRENT_TAU = 15.   # 15s time constant
-DAYS_NO_CONNECTIVITY_MAX = 7  # do not allow to engage after a week without internet
-DAYS_NO_CONNECTIVITY_PROMPT = 4  # send an offroad prompt after 4 days with no internet
+DAYS_NO_CONNECTIVITY_MAX = 100  # do not allow to engage after a week without internet
+DAYS_NO_CONNECTIVITY_PROMPT = 100  # send an offroad prompt after 4 days with no internet
 
 
 with open(BASEDIR + "/selfdrive/controls/lib/alerts_offroad.json") as json_file:
@@ -102,7 +102,7 @@ _TEMP_THRS_H = [50., 65., 80., 10000]
 # temp thresholds to control fan speed - low hysteresis
 _TEMP_THRS_L = [42.5, 57.5, 72.5, 10000]
 # fan speed options
-_FAN_SPEEDS = [0, 16384, 32768, 65535]
+_FAN_SPEEDS = [0, 65535, 65535, 65535]
 # max fan speed only allowed if battery is hot
 _BAT_TEMP_THERSHOLD = 45.
 

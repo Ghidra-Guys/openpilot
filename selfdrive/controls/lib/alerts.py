@@ -445,14 +445,14 @@ ALERTS = [
       "TAKE CONTROL IMMEDIATELY",
       "Controls Failed",
       AlertStatus.critical, AlertSize.full,
-      Priority.HIGHEST, VisualAlert.steerRequired, AudibleAlert.chimeWarningRepeat, 2.2, 3., 4.),
+      Priority.HIGHEST, VisualAlert.steerRequired, AudibleAlert.none, 2.2, 3., 4.),
 
   Alert(
       "controlsMismatch",
       "TAKE CONTROL IMMEDIATELY",
       "Controls Mismatch",
       AlertStatus.critical, AlertSize.full,
-      Priority.HIGHEST, VisualAlert.steerRequired, AudibleAlert.chimeWarningRepeat, 2.2, 3., 4.),
+      Priority.HIGHEST, VisualAlert.steerRequired, AudibleAlert.none, 2.2, 3., 4.),
 
   Alert(
       "canError",

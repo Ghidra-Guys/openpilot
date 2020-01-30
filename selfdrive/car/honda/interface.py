@@ -269,8 +269,13 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 3410. * CV.LB_TO_KG + STD_CARGO_KG
       ret.wheelbase = 2.66
       ret.centerToFront = ret.wheelbase * 0.41
+<<<<<<< HEAD
       ret.steerRatio = 15.5
 #      ret.steerRatioV = 0.006
+=======
+      ret.steerRatio = 15.25
+      ret.steerRatioV = 0.008 # steer ratio drops 0.006 per degree of steering from center
+>>>>>>> test
       # TODO: can we imporve steering control by adding all breakpoints from firmware and adjust interp output to have constant slope?
       if eps_modified:
         # stock request output values:    0x0000, 0x0500, 0x0A15, 0x0E6D, 0x1100, 0x1200, 0x129A, 0x134D, 0x1400
@@ -278,12 +283,12 @@ class CarInterface(CarInterfaceBase):
         # stock filter output values:     0x009F, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108
         # modified filter output values:  0x009F, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0400, 0x0480
         # note: max request allowed is 4096, but request is capped at 3840 in firmware, so modifications result in 2x max
-        ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0x0, 0x480, 0x912, 0xCFB, 0xF4C, 0x1033, 0x19CC, 0x2366, 0x2D00], [0x0, 0x200, 0x400, 0x600, 0x800, 0xA00, 0xC00, 0xE00, 0xF00]]#confirmed F00 is steer_max for crv
-        ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.4], [0.15]]
+        ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0x0, 0x3C0, 0x78F, 0xAD1, 0xCC0, 0xD80, 0x1800, 0x2280, 0x2D00], [0x0, 0x200, 0x400, 0x600, 0x800, 0xA00, 0xC00, 0xE00, 0xF00]]#confirmed F00 is steer_max for crv
+        ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.35], [0.09]]
       else:
         ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0x0, 0xB40, 0x16AF, 0x2075, 0x2640, 0x2880, 0x29DA, 0x2B6D, 0x2D00], [0x0, 0x200, 0x400, 0x600, 0x800, 0xA00, 0xC00, 0xE00, 0xF00]] # max request allowed is 0xF00
         ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.6], [0.18]]
-      tire_stiffness_factor = 0.677
+      tire_stiffness_factor = 0.6
       ret.longitudinalTuning.kpBP = [0., 5., 35.]
       ret.longitudinalTuning.kpV = [1.2, 0.8, 0.5]
       ret.longitudinalTuning.kiBP = [0., 35.]
